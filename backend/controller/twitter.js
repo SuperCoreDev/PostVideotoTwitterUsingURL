@@ -1,7 +1,7 @@
 const { twitterClient } = require("./../const/twitterclient");
 const Twitter = require('twitter-api-v2')
 const https = require('https');
-
+const oauth = require('./../const/oauth')
 const getTwitterMediaFromURL = async (url) => {
   const buffer = await getBufferFromURL(url);
   if (!buffer) {
@@ -64,28 +64,34 @@ const getMimeTypeFromURL = (url) => {
 };
 const postTwitte = async(req, res) => {
   try {
-    var url = req.body.url;
-    console.log(url)
-    const twitterVideo = await getTwitterMediaFromURL('https://pizzap.io/video/pizzap.aigc.s1.mp4');
+    // var url = req.body.url;
+    // var oauthPromise = oauth()
+    // oauthPromise.then(
+    //   function (bearer){
+    //     console.log(bearer)
+    //   }
+    // )
+    //console.log(url)
+    //const twitterVideo = await getTwitterMediaFromURL('https://pizzap.io/video/pizzap.aigc.s1.mp4');
     // res.status(200).send({data:result.data})
-    const tweet = await twitterClient.v2.tweet(url, {
-      media: {
-          media_ids: [twitterVideo],
-      },
-    })
-    const me = await twitterClient.v2.me();
-    if(tweet.data.id && me.data.id){
-      const newLink = 'https://twitter.com/@' + me.data.username + '/status/' + tweet.data.id
-      res.status(200).send({data: newLink})
-    }
+    // const tweet = await twitterClient.v2.tweet(url, {
+    //   media: {
+    //       media_ids: [twitterVideo],
+    //   },
+    // })
+    // const me = await twitterClient.v2.me();
+    // if(tweet.data.id && me.data.id){
+    //   const newLink = 'https://twitter.com/@' + me.data.username + '/status/' + tweet.data.id
+    //   res.status(200).send({data: newLink})
+    // }
     
-    try {
-      console.log('Posted tweet.\n' + 'https://twitter.com/@' + me.data.username + '/status/' + tweet.data.id);
-    } catch (error) {
-        const detail = error?.data?.detail || error;
-        console.log('Failed to post tweet link.\n' + detail);
-        console.error('Failed to post tweet link. ', detail);
-    }
+    // try {
+    //   console.log('Posted tweet.\n' + 'https://twitter.com/@' + me.data.username + '/status/' + tweet.data.id);
+    // } catch (error) {
+    //     const detail = error?.data?.detail || error;
+    //     console.log('Failed to post tweet link.\n' + detail);
+    //     console.error('Failed to post tweet link. ', detail);
+    // }
   } catch (error) {
       if (error.code === 400) {
         const detail = error?.data?.detail || error;
